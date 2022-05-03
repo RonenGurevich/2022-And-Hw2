@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="2">
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:id="@+id/top_ten"
+        android:layout_weight="1"
+        android:tag="TT_tag"
+        android:name="Fragments.TT_Fragment"/>
+
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:id="@+id/TT_FRG_map"
+            android:layout_weight="1"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            />
+    <Button
+        android:id="@+id/TT_BTN_ToMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="back To Menu"
+        />
+
+</LinearLayout>

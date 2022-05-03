@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">HuntingGame</string>
+    <string name="right">Right</string>
+    <string name="left">Left</string>
+    <string name="up">UP</string>
+    <string name="down">Down</string>
+    <string name="_0">0</string>
+    <string name="Menu_Title">Welcome to the Hunting Game</string>
+    <string name="start_game">Start Game</string>
+    <string name="top_ten">Top_Ten</string>
+    <string name="menu">Menu</string>
+    <string name="retry">Retry</string>
+    <string name="MAPS_API_KEY">AIzaSyApE4-B9GADGFJ7YEFo20Tre6OrRAP4yTs</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
