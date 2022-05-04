@@ -19,6 +19,10 @@ import Utility.UtilityMethods;
 import classes.TTlistAdapter;
 import classes.TopTenItem;
 
+/**
+ * This class represents the list of the scores to be saved in the top ten
+ * it uses a Recycler View to save the scores
+ */
 public class TT_Fragment extends Fragment {
 
     TTlistAdapter adapter;

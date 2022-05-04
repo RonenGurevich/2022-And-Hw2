@@ -3,21 +3,15 @@ package classes;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.huntinggame.MainActivity;
 import com.example.huntinggame.MenuActivity;
 import com.example.huntinggame.R;
 
@@ -29,8 +23,8 @@ import Utility.UtilityMethods;
 public class GameManager {
 
 
-    private static final int height = 5;
-    private static final int width = 3;
+    private static final int height = 8;
+    private static final int width = 5;
     private static int lifeCount = 3;
     private static final int COIN_SCORE_VALUE = 10;
     int score = 0;
@@ -63,6 +57,9 @@ public class GameManager {
         this.huntedMovement = huntedMovement;
     }
 
+    /**
+     * Initialize the game's grid
+     */
     void initGrid()
     {
         gameBoard = new ImageView[height][width];
@@ -83,6 +80,9 @@ public class GameManager {
         initPlayers();
     }
 
+    /**
+     * set player's starting positions
+     */
     void initPlayers()
     {
         score_TXT.setText(String.valueOf(score));
@@ -101,6 +101,9 @@ public class GameManager {
         gameBoard[huntedPos[1]][huntedPos[0]].setImageResource(R.drawable.man); // set hunted base location in the middle of bottom row
     }
 
+    /**
+     * create a popup that is shown at the end of a game, that lets the user the option to replay or go back to menu
+     */
     void createPopUp()
     {
         Dialog popup = new Dialog(ctx);
@@ -134,6 +137,9 @@ public class GameManager {
         popup.show();
     }
 
+    /**
+     * Start the gmae's clock
+     */
     public void startGame() {
         scores = UtilityMethods.loadTopTen(ctx);
         grid.post(() -> { //since I need the layout's size, I use the post method
@@ -142,6 +148,9 @@ public class GameManager {
         });
     }
 
+    /**
+     * Restart the game in case the user chose to replay
+     */
     void restartGame()
     {
         lifeCount = 3;
@@ -154,6 +163,9 @@ public class GameManager {
         startClock();
     }
 
+    /**
+     *  run the game's clock
+     */
     void startClock() {
         Handler clock = new Handler();
         clock.postDelayed(new Runnable() {
@@ -166,6 +178,13 @@ public class GameManager {
         },1000);
     }
 
+    /**
+     * since 0-3 are used to choose direction, conversion is needed to transform it into an yStep,xStep
+     * I map the numbers 0-3 into {1,0,1,0} accordingly using %2 to get axis of movement: 1->y axis, 0 -> x axis
+     * then I map it to get {1,-1,-1,1} to decide the movement direction on the axis
+     * @param num a number to represent movement direction
+     * @return and array consisting of [yStep, xStep]
+     */
     int[] numberToDirection(int num)
     {
         int[] movement = {0, 0};
@@ -176,6 +195,13 @@ public class GameManager {
         return movement;
     }
 
+    /**
+     *
+     * @param item the item to move, hunter or hunted
+     * @param xStep the amount to move on the x Axis
+     * @param yStep the amount to move on the y Axis
+     * @param drawable the picture to draw, to move the hunter\hunted on the screen
+     */
     void moveItem(int[] item, int xStep, int yStep, int drawable)
     {
         int new_X = item[0] + xStep;
@@ -191,6 +217,11 @@ public class GameManager {
         gameBoard[item[1]][item[0]].setImageResource(drawable); //delete prev pic
     }
 
+    /**
+     * Method to check whether the cash was picked up by one of the players
+     * if the user (hunted) picks it up, gains extra points on pickup
+     * if the hunter picks it up, then the coin is gone
+     */
     private void checkCashPickUp()
     {
         boolean playerPickUp = huntedPos[0] == cashPos[0] && huntedPos[1] == cashPos[1];
@@ -208,10 +239,31 @@ public class GameManager {
         }
     }
 
+    /**
+     * function to handle the cash spawn on the board
+     * @param chanceThreshold - a number to define a certain chance for a coin to spawn when one doesn't exist
+     */
+    private void handleCashSpawn(float chanceThreshold) {
+        if(!coinExists)
+        {
+            cashPos[0] = rnd.nextInt(width);
+            cashPos[1] = rnd.nextInt(height);
+
+            float chance = rnd.nextFloat();
+            if(chance <= chanceThreshold) { // chance for coin spawn
+                gameBoard[cashPos[1]][cashPos[0]].setImageResource(R.drawable.cash);
+                coinExists = true;
+            }
+        }
+    }
+    /**
+     * tick function for the game's clock.
+     * 2 game over checks are required, once to check if hunter stepped on hunter, or the opposite
+     */
     void tick()
     {
         score++;
-        handleCashSpawn(1f);
+        handleCashSpawn(0.5f);
         if(checkGameOver()) // check for game over
         {
             initPlayers();
@@ -231,20 +283,11 @@ public class GameManager {
         score_TXT.setText(String.valueOf(score));
     }
 
-    private void handleCashSpawn(float chanceThreshold) {
-        if(!coinExists)
-        {
-            cashPos[0] = rnd.nextInt(width);
-            cashPos[1] = rnd.nextInt(height);
 
-            float chance = rnd.nextFloat();
-            if(chance <= chanceThreshold) { // chance for coin spawn
-                gameBoard[cashPos[1]][cashPos[0]].setImageResource(R.drawable.cash);
-                coinExists = true;
-            }
-        }
-    }
-
+    /**
+     * test if game is over and reduce lives each time player is hit
+     * @return if the game is over
+     */
     boolean checkGameOver()
     {
         boolean hit = hunterPos[0] == huntedPos[0] && hunterPos[1] == huntedPos[1];
@@ -267,6 +310,11 @@ public class GameManager {
         return false;
     }
 
+    /**
+     * play a sound effect
+     * @param ctx - context of the game
+     * @param soundEffect - an integer that represents the media file to be played
+     */
     void playSound(Context ctx, int soundEffect)
     {
         MediaPlayer mp = MediaPlayer.create(ctx, soundEffect);

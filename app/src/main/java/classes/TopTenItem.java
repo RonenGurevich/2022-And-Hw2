@@ -25,18 +25,6 @@ public class TopTenItem {
         return lon;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public void setLon(double lon) {
-        this.lon = lon;
-    }
-
     @Override
     public String toString() {
         return "TopTenItem{" +

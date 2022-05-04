@@ -30,7 +30,7 @@ import Utility.UtilityMethods;
 import classes.GameManager;
 import classes.TopTenItem;
 
-public class MainActivity extends AppCompatActivity{
+public class SensorActivity extends AppCompatActivity{
 
     GameManager gm;
 
@@ -95,26 +95,26 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         public void onSensorChanged(SensorEvent event) {
+            /*
+                handle Sensor changes
+                In this case, an Accelerometer is used. the base position for the phone is z=0,y=0,x=-90
+             */
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 float x = event.values[0];
                 float y = event.values[1];
                 if (Math.abs(x) > Math.abs(y)) {
                     if (x < 0) {
                         gm.setHuntedMovement(directions.RIGHT.ordinal());
-                        //huntedMovement = directions.RIGHT.ordinal(); //right
                     }
                     if (x > 0) {
                         gm.setHuntedMovement(directions.LEFT.ordinal());
-                       // huntedMovement = directions.LEFT.ordinal(); //left
                     }
                 } else {
                     if (y < 0) {
                         gm.setHuntedMovement(directions.UP.ordinal());
-                        //huntedMovement = directions.UP.ordinal(); //up
                     }
                     if (y > 0) {
                         gm.setHuntedMovement(directions.DOWN.ordinal());
-                        //huntedMovement = directions.DOWN.ordinal(); //down
                     }
                 }
                 if (x > (-2) && x < (2) && y > (-2) && y < (2)) { //no tilt

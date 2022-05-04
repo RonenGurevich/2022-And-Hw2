@@ -14,6 +14,7 @@ import com.example.huntinggame.R;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+// an Adapter for the Recycler view used in the Top Ten Fragment
 public class TTlistAdapter extends RecyclerView.Adapter<TTlistAdapter.ViewHolder> {
 
    private ArrayList<TopTenItem> items;
@@ -44,8 +45,6 @@ public class TTlistAdapter extends RecyclerView.Adapter<TTlistAdapter.ViewHolder
        viewHolder.itemView.setOnClickListener(view -> {
            if(onClickListener != null)
                onClickListener.accept(item);
-           //TODO: change to call googlemaps API here
-           Log.d("ViewHolderitem", item.toString());
        });
    }
 

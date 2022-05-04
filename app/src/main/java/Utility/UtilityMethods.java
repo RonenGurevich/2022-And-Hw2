@@ -25,11 +25,22 @@ public class UtilityMethods extends AppCompatActivity {
     public static final String FILE_NAME = "top_ten";
     public static final String KEY_PREFS = "top_ten_item";
 
+    /**
+     * switch activity
+     * @param context - the context of the activity that calls the switch
+     * @param dest - destination activity
+     */
     public static void switchActivity(Context context, Class dest) {
         Intent intent = new Intent(context, dest);
         context.startActivity(intent);
     }
 
+    /**
+     * function to get the best possible location, after testing all enables location providers
+     * @param ctx - context of the activity that calls this function
+     * @return Location object that represents saved location
+     * @throws Exception in case there are no given location permissions for the app
+     */
     public static Location getLocation(Context ctx) throws Exception {
         LocationManager lm = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -50,6 +61,11 @@ public class UtilityMethods extends AppCompatActivity {
         throw new Exception("Error: missing location permissions!");
     }
 
+    /**
+     * Save an arraylist of items to the shared preference file
+     * @param ctx - context of the activity that calls this function
+     * @param items - an Arraylist of items to be saved into the shared preference file
+     */
     public static void saveTopTen(Context ctx, List<TopTenItem> items) {
         SharedPreferences sp = ctx.getSharedPreferences(FILE_NAME, ctx.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -57,12 +73,23 @@ public class UtilityMethods extends AppCompatActivity {
         setList(KEY_PREFS, items, editor);
     }
 
+    /**
+     * Load a list of items from the shared preference file into an Arraylist
+     * @param ctx - context of the activity that calls this function
+     * @return Arraylist of items loaded from the file
+     */
     public static ArrayList<TopTenItem> loadTopTen(Context ctx) {
         SharedPreferences sp = ctx.getSharedPreferences(FILE_NAME, ctx.MODE_PRIVATE);
 
         return getList(sp);
     }
 
+    /**
+     * Function to save a list of items in JSON format into the shared preference file
+     * @param key - a key to save the data in the shared preference under
+     * @param list - list of items to save
+     * @param editor - the shared preference editor
+     */
     public static  <T> void setList(String key, List<T> list, SharedPreferences.Editor editor) {
         Gson gson = new Gson();
         String json = gson.toJson(list);
@@ -70,11 +97,22 @@ public class UtilityMethods extends AppCompatActivity {
         set(key, json, editor);
     }
 
+    /**
+     * Functions that sets a string into the shared preference file
+     * @param key - key to save data with
+     * @param value - the value to save
+     * @param editor - the shared preference editor
+     */
     public static void set(String key, String value, SharedPreferences.Editor editor) {
         editor.putString(key, value);
         editor.commit();
     }
 
+    /**
+     * function to read a JSON saved in the shared preference file and parse it into an Arraylist
+     * @param sp - shared preference file
+     * @return - Arraylist of items loaded from the file
+     */
     public static ArrayList<TopTenItem> getList(SharedPreferences sp){
         ArrayList<TopTenItem> arrayItems = new ArrayList<TopTenItem>();
         String serializedObject = sp.getString(KEY_PREFS, null);

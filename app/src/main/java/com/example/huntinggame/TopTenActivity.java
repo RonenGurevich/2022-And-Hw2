@@ -42,6 +42,10 @@ public class TopTenActivity extends FragmentActivity implements OnMapReadyCallba
         });
     }
 
+    /**
+     * once an item on the top ten list is clicked, show the saved location on the map
+     * put a marker there and move the camera
+     */
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         assert frag != null;
