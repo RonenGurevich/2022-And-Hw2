@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuActivity"
-    >
+    tools:context=".MenuActivity">
 
     <TextView
         android:id="@+id/Menu_TXT_Title"
@@ -21,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/Menu_BTN_start"
+        android:id="@+id/Menu_BTN_Sensors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/start_game"
@@ -31,12 +30,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/Menu_BTN_Buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Buttons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Menu_BTN_Sensors" />
+
+    <Button
         android:id="@+id/Menu_BTN_TT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/top_ten"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Menu_BTN_start" />
+        app:layout_constraintTop_toBottomOf="@+id/Menu_BTN_Buttons" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package Utility;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +34,7 @@ public class UtilityMethods extends AppCompatActivity {
     public static void switchActivity(Context context, Class dest) {
         Intent intent = new Intent(context, dest);
         context.startActivity(intent);
+        ((Activity) context).finish();
     }
 
     /**

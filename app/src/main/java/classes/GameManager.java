@@ -22,7 +22,6 @@ import Utility.UtilityMethods;
 
 public class GameManager {
 
-
     private static final int height = 8;
     private static final int width = 5;
     private static int lifeCount = 3;
@@ -37,13 +36,12 @@ public class GameManager {
     private TextView score_TXT;
     private LinearLayout grid;
 
-    int[] hunterPos = new int[2];
-    int[] huntedPos = new int[2];
-    int[] cashPos = new int[2];
-    int huntedMovement = 3; //default is down so it wont move
+    private int[] hunterPos = new int[2];
+    private int[] huntedPos = new int[2];
+    private int[] cashPos = new int[2];
+    private int huntedMovement = 3; //default is down so it wont move
 
     ArrayList<TopTenItem> scores = new ArrayList<>();
-
 
     public GameManager(Context ctx, ImageView[][] gameBoard, ImageView[] lives, TextView score_TXT, LinearLayout grid) {
         this.ctx = ctx;
@@ -86,7 +84,6 @@ public class GameManager {
     void initPlayers()
     {
         score_TXT.setText(String.valueOf(score));
-
         gameBoard[hunterPos[1]][hunterPos[0]].setImageResource(0);
         gameBoard[huntedPos[1]][huntedPos[0]].setImageResource(0);
         //save hunter's coordinates
@@ -119,7 +116,6 @@ public class GameManager {
 
         menuBTN.setOnClickListener(view -> {
             popup.dismiss();
-
             scores.sort((a,b) -> b.getScore() - a.getScore());
 
             int len = Math.min(scores.size(), 10);
@@ -130,8 +126,8 @@ public class GameManager {
             UtilityMethods.saveTopTen(ctx, subList);
 
             Activity a = (Activity) ctx;
-            a.finish();
             UtilityMethods.switchActivity(ctx, MenuActivity.class);
+            a.finish();
         });
 
         popup.show();
@@ -141,6 +137,7 @@ public class GameManager {
      * Start the gmae's clock
      */
     public void startGame() {
+        lifeCount = 3;
         scores = UtilityMethods.loadTopTen(ctx);
         grid.post(() -> { //since I need the layout's size, I use the post method
             initGrid();
