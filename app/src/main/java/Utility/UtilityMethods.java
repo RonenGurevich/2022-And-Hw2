@@ -34,7 +34,6 @@ public class UtilityMethods extends AppCompatActivity {
     public static void switchActivity(Context context, Class dest) {
         Intent intent = new Intent(context, dest);
         context.startActivity(intent);
-        ((Activity) context).finish();
     }
 
     /**

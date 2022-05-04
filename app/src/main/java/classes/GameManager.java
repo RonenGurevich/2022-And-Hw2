@@ -116,6 +116,7 @@ public class GameManager {
 
         menuBTN.setOnClickListener(view -> {
             popup.dismiss();
+
             scores.sort((a,b) -> b.getScore() - a.getScore());
 
             int len = Math.min(scores.size(), 10);
@@ -126,8 +127,8 @@ public class GameManager {
             UtilityMethods.saveTopTen(ctx, subList);
 
             Activity a = (Activity) ctx;
-            UtilityMethods.switchActivity(ctx, MenuActivity.class);
             a.finish();
+            UtilityMethods.switchActivity(ctx, MenuActivity.class);
         });
 
         popup.show();
